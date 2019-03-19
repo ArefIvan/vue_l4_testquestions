@@ -1,47 +1,50 @@
 <template>
-  <div >
-    
-        <h2>{{question[num].title}}</h2>
-
-        <radio-box v-if="question[num].type=='radio'"
-                  :type="question[num].type"
-                  :answers="question[num].answers"
-                  @onAnswer="getAnswer(num,$event)"
-                  @getAnswerUser='getAnswerUser($event)' >
-        </radio-box>
-        <check-box v-if="question[num].type=='checkbox'"
-                  :type="question[num].type"
-                  :answers="question[num].answers"
-                  @onAnswer="getAnswer(num,$event)"
-                  @getAnswerUser='getAnswerUser($event)' >
-        </check-box>
-         
-       
-         
-   
+  <div>
+    <div v-show = "!showEnd">
       
-
-       <button @click='nextQuestion'
-                class="btn btn-primary"
-                :disabled = "activeBtn"
-                
-       >Next Question</button>
-
-
-     <div v-if="showEnd" >
-         <table class="table table-bordered">
-         <tr v-for="(item,index) in answersUser">
-            <td>{{index + 1}}</td>
-           <td v-if ="typeof item == 'object'">
-              <tr v-for="(item,index) in item">
-                <td>{{item}}</td>
-              </tr>
-       
-           </td>
-           <td v-else>{{item}}</td>
-         </tr>
-       </table>
-     </div>
+          <h2>{{question[num].title}}</h2>
+    
+          <radio-box v-if="question[num].type=='radio'"
+                    :type="question[num].type"
+                    :answers="question[num].answers"
+                    @onAnswer="getAnswer(num,$event)"
+                    @getAnswerUser='getAnswerUser($event)' >
+          </radio-box>
+          <check-box v-if="question[num].type=='checkbox'"
+                    :type="question[num].type"
+                    :answers="question[num].answers"
+                    @onAnswer="getAnswer(num,$event)"
+                    @getAnswerUser='getAnswerUser($event)' >
+          </check-box>
+           
+         
+           
+     
+        
+    
+         <button @click='nextQuestion'
+                  class="btn btn-primary"
+                  :disabled = "activeBtn"
+                  
+         >Next Question</button>
+    
+      </div>
+       <div v-if="showEnd" >
+           <table class="table table-bordered">
+           <tr v-for="(item,index) in answersUser">
+              <td>{{index + 1}}</td>
+             <!--  <td v-if ="typeof item == 'object'">
+                <table class="table table-bordered">
+                  <tr v-for="(item,index) in item">
+                    <td>{{item}}</td>
+                  </tr>
+              </table>
+             </td> -->
+             <td>{{item}}</td>
+           </tr>
+         </table>
+       </div>
+  </div>
 
 <!--        <div>
 
@@ -131,14 +134,15 @@ export default {
      methods: {
 
         nextQuestion(){
-
+          this.num++;
+          console.log(this.num)
 
          
-          if(this.num<(this.question.length - 1)){this.num++}
+          if(this.num > (this.question.length - 1)){
 
-          else{
-            this.num = 0;
-            this.showEnd = true};
+             this.num = 0;
+            this.showEnd = true;
+          }
 
 
           this.activeBtn= !this.activeBtn
